@@ -31,6 +31,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         mmuFornecedores = new javax.swing.JMenuItem();
         mmuProdutos = new javax.swing.JMenuItem();
+        mmuUsuarios = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        mmuCompra = new javax.swing.JMenuItem();
+        mmuVenda = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -39,12 +43,45 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1.setText("Cadastros");
 
         mmuFornecedores.setText("Fornecedores");
+        mmuFornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mmuFornecedoresMouseClicked(evt);
+            }
+        });
+        mmuFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mmuFornecedoresActionPerformed(evt);
+            }
+        });
         jMenu1.add(mmuFornecedores);
 
         mmuProdutos.setText("Produtos");
+        mmuProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mmuProdutosActionPerformed(evt);
+            }
+        });
         jMenu1.add(mmuProdutos);
 
+        mmuUsuarios.setText("Usuários");
+        mmuUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mmuUsuariosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mmuUsuarios);
+
         jMenuBar1.add(jMenu1);
+
+        jMenu3.setText("Serviços");
+
+        mmuCompra.setText("Compra");
+        jMenu3.add(mmuCompra);
+
+        mmuVenda.setText("Venda");
+        jMenu3.add(mmuVenda);
+
+        jMenuBar1.add(jMenu3);
 
         jMenu2.setText("Consultas");
         jMenuBar1.add(jMenu2);
@@ -55,16 +92,38 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 377, Short.MAX_VALUE)
+            .addGap(0, 477, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mmuFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmuFornecedoresActionPerformed
+        TelaEditarFornecedores tela = new TelaEditarFornecedores();
+        this.add(tela);
+        tela.show();
+    }//GEN-LAST:event_mmuFornecedoresActionPerformed
+
+    private void mmuFornecedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mmuFornecedoresMouseClicked
+
+    }//GEN-LAST:event_mmuFornecedoresMouseClicked
+
+    private void mmuProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmuProdutosActionPerformed
+        TelaEditarProdutos tela = new TelaEditarProdutos();
+        this.add(tela);
+        tela.show();
+    }//GEN-LAST:event_mmuProdutosActionPerformed
+
+    private void mmuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmuUsuariosActionPerformed
+        TelaEditarUsuarios tela = new TelaEditarUsuarios();
+        this.add(tela);
+        tela.show();
+    }//GEN-LAST:event_mmuUsuariosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,8 +163,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem mmuCompra;
     private javax.swing.JMenuItem mmuFornecedores;
     private javax.swing.JMenuItem mmuProdutos;
+    private javax.swing.JMenuItem mmuUsuarios;
+    private javax.swing.JMenuItem mmuVenda;
     // End of variables declaration//GEN-END:variables
 }
