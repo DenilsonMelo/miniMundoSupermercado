@@ -15,7 +15,7 @@ public class BancoDados {
             Class.forName("com.mysql.jdbc.Driver");
             
             //Conecta ao banco de dados
-            conexao = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/escola","root","info159753");
+            conexao = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/MINIMUNDO","root","info159753");
             
         } catch (ClassNotFoundException ex) {
             System.out.println("Driver do banco de dados não foi encontrado!");
