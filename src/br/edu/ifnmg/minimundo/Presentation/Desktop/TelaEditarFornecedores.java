@@ -5,6 +5,14 @@
  */
 package br.edu.ifnmg.minimundo.Presentation.Desktop;
 
+import br.edu.ifnmg.minimundo.DomainModel.ErroValidacaoException;
+import br.edu.ifnmg.minimundo.DomainModel.Fornecedor;
+import br.edu.ifnmg.minimundo.Persistence.FornecedorRepositorio;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author denil
@@ -14,10 +22,37 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
     /**
      * Creates new form TelaCadastroFornecedores
      */
+    private Fornecedor fornecedor;
+    private FornecedorRepositorio fornecedor_repositorio;
+    
     public TelaEditarFornecedores() {
         initComponents();
+        fornecedor = new Fornecedor();
+        fornecedor_repositorio = new FornecedorRepositorio();
+    }
+    
+    public TelaEditarFornecedores(Fornecedor fornecedor, FornecedorRepositorio repositorio){
+        initComponents();
+        setFornecedor(fornecedor);
+        this.fornecedor_repositorio = repositorio;
     }
 
+    public void setFornecedor(Fornecedor fornecedor){
+        this.fornecedor = fornecedor;
+        txtRazaoSocial.setText(fornecedor.getRazaoSocial());
+        txtCNPJ.setText(fornecedor.getCNPJ());
+        txtEndereco.setText(fornecedor.getEndereco());
+        txtEmail.setText(fornecedor.getEmail());
+    }
+    
+    public Fornecedor getFornecedor(){
+        this.fornecedor.setRazaoSocial(txtRazaoSocial.getText());
+        this.fornecedor.setCNPJ(txtCNPJ.getText());
+        this.fornecedor.setEndereco(txtEndereco.getText());
+        this.fornecedor.setEmail(txtEmail.getText());
+        return this.fornecedor;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +86,11 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
         jLabel4.setText("E-mail");
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnApagar.setText("Apagar");
 
@@ -112,6 +152,36 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+        try{
+            this.fornecedor = getFornecedor();
+        }
+        catch(ErroValidacaoException ex){
+            JOptionPane.showMessageDialog(null, "Erro de validação: "+ ex.getMessage());
+            return;
+        }
+        
+        if(JOptionPane.showConfirmDialog(null, "Deseja realmente salvar os dados? "
+                , "Confirmar", JOptionPane.YES_NO_OPTION) == 0) {
+        
+            try {
+                if(this.fornecedor_repositorio.Salvar(fornecedor))
+                    JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+                else
+                    JOptionPane.showMessageDialog(null, "Falha ao salvar os dados!");
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaEditarFornecedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Operação cancelada!");
+        
+        
+        }
+    }                              
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

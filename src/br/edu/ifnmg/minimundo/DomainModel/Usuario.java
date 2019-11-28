@@ -22,12 +22,13 @@ public class Usuario {
     private Pattern regex_cpf = 
             Pattern.compile("\\d{3}\\.?\\d{3}\\.?\\d{3}\\-?\\d{2}");
     
+    
     public Usuario(){
         this.id = 0;
         this.nome = "";
         this.CPF = "00000000000";
         this.sexo = "M";
-        this.status = "1";
+        this.status = "";
         this.telefones = new ArrayList<>(); 
         this.usuario = "";
         this.senha = "";
@@ -39,7 +40,7 @@ public class Usuario {
         this.nome = nome;
         this.CPF = CPF;
         this.sexo = "M";
-        this.status = "0";
+        this.status = "";
         this.telefones = new ArrayList<>();
         this.usuario = "";
         this.senha = "";
@@ -58,8 +59,6 @@ public class Usuario {
     }
 
     public void setNome(String nome) throws ErroValidacaoException {
-        if(nome.length() < 3)
-            throw new ErroValidacaoException("O campo nome deve ter ao menos 3 caracteres!");
         this.nome = nome;
     }
 

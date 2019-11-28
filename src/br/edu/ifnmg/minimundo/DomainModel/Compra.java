@@ -1,5 +1,7 @@
 package br.edu.ifnmg.minimundo.DomainModel;
 
+import java.math.BigDecimal;
+
 public class Compra {
     
     public Compra(){}
@@ -8,8 +10,8 @@ public class Compra {
     private String data;
     private String unidade;
     private int quantidade;
-    private float valorUnitario;
-    private float valorTotal;
+    private BigDecimal valorUnitario;
+    private BigDecimal valorTotal;
 
     public int getId() {
         return id;
@@ -43,19 +45,19 @@ public class Compra {
         this.quantidade = quantidade;
     }
 
-    public float getValorUnitario() {
+    public BigDecimal getValorUnitario() {
         return valorUnitario;
     }
 
-    public void setValorUnitario(float valorUnitario) {
+    public void setValorUnitario(BigDecimal valorUnitario) {
         this.valorUnitario = valorUnitario;
     }
 
-    public float getValorTotal() {
+    public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(float valorTotal) {
+    public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
 

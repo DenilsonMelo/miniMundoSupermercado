@@ -19,7 +19,7 @@ public class ClienteRepositorio extends BancoDados{
         try{
             if(cliente.getId() == 0){
                 PreparedStatement sql = 
-                        this.getConexao().prepareStatement("insert into Cliente"
+                        this.getConexao().prepareStatement("insert into Clientes"
                                 + "(status, nome, cpf, endereco, sexo, email) values (?,?,?,?,?,?)",
                                 Statement.RETURN_GENERATED_KEYS);
                 
@@ -41,7 +41,7 @@ public class ClienteRepositorio extends BancoDados{
                     return false;
             } else {
                     PreparedStatement sql = this.getConexao().prepareStatement(
-                            "update Cliente set status = ?, nome = ?, cpf = ?, endereco = ?, sexo = ?, email = ?");
+                            "update Clientes set status = ?, nome = ?, cpf = ?, endereco = ?, sexo = ?, email = ?");
                     
                     sql.setString(1, cliente.getStatus());
                     sql.setString(2, cliente.getNome());
@@ -68,7 +68,7 @@ public class ClienteRepositorio extends BancoDados{
     public void AtualizarTelefones(Cliente cliente){
         try{
             PreparedStatement sql = this.getConexao().
-                    prepareStatement("delete from clientesTelefones where cliente_id = ?");
+                    prepareStatement("delete from ClientesTelefones where cliente_id = ?");
             
             sql.setInt(1, cliente.getId());
             
@@ -128,7 +128,7 @@ public class ClienteRepositorio extends BancoDados{
     public void abrirTelefones(Cliente cliente) throws SQLException{
         try{
             PreparedStatement sql = this.getConexao().
-                    prepareStatement("select telefone from ClienteTelefones where cliente_id = ?");
+                    prepareStatement("select telefone from ClientesTelefones where cliente_id = ?");
         
             sql.setInt(1, cliente.getId());
             
@@ -147,7 +147,7 @@ public class ClienteRepositorio extends BancoDados{
     public boolean Apagar(Cliente cliente){
         try{
             PreparedStatement sql = this.getConexao().
-                    prepareStatement("delete from Cliente where id = ?");
+                    prepareStatement("delete from Clientes where id = ?");
         
             sql.setInt(1, cliente.getId());
             
@@ -177,9 +177,14 @@ public class ClienteRepositorio extends BancoDados{
                     where += "cpf = '"+filtro.getCPF().replace("-","").replace(".","") + "'";
        
                 }
+                if(filtro.getSexo() != null){ 
+                    if(where.length() > 0)
+                        where += " and ";
+                    where += "sexo = '"+filtro.getSexo().toString()+"'";
+                }
             }
             
-            String consulta = "select * from Alunos";
+            String consulta = "select * from Clientes";
             
             if(where.length() > 0)
                 consulta += " where " + where;
@@ -204,11 +209,12 @@ public class ClienteRepositorio extends BancoDados{
                     abrirTelefones(cliente);   
 
                 }
-                catch(SQLException ex){
-                    System.out.println(ex.getMessage());
+                catch(Exception ex){
+                    cliente = null;
                 }
+                clientes.add(cliente);
             }
-        
+            return clientes;
         }
         catch(SQLException ex){
             System.out.println(ex.getMessage());

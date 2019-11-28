@@ -111,19 +111,19 @@ public class FornecedorRepositorio extends BancoDados{
         return false;
     }
     
-    public List<Cliente> Buscar(Fornecedor filtro) throws ErroValidacaoException{
+    public List<Fornecedor> Buscar(Fornecedor filtro) throws ErroValidacaoException{
         try{
             String where = "";
         
             if(filtro != null){
                 if(filtro.getRazaoSocial() != null && !filtro.getRazaoSocial().isEmpty())
-                    where += "nome like '%"+filtro.getRazaoSocial()+ "%'";
+                    where += "razaosocial like '%"+filtro.getRazaoSocial()+ "%'";
             
                 if(filtro.getCNPJ() != null && !filtro.getCNPJ().isEmpty() && 
                         !"00.000.000/0000-00".equals(filtro.getCNPJ())){
                     if(where.length() > 0)
                         where += " and ";
-                    where += "cpf = '"+filtro.getCNPJ().replace("-","").replace(".","") + "'";
+                    where += "cnpj = '"+filtro.getCNPJ().replace("/","").replace(".","") + "'";
        
                 }
             }
@@ -150,11 +150,12 @@ public class FornecedorRepositorio extends BancoDados{
                     fornecedor.setEndereco(resultado.getString("endereco"));                   
                     fornecedor.setEmail(resultado.getString("email"));
                 }
-                catch(SQLException ex){
-                    System.out.println(ex.getMessage());
+                catch(Exception ex){
+                    fornecedor = null;
                 }
+                fornecedores.add(fornecedor);
             }
-        
+            return fornecedores;
         }
         catch(SQLException ex){
             System.out.println(ex.getMessage());

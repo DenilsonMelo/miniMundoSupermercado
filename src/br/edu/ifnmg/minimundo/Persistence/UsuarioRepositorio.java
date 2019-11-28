@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ListModel;
 
 public class UsuarioRepositorio extends BancoDados{
     public UsuarioRepositorio(){
@@ -19,8 +21,8 @@ public class UsuarioRepositorio extends BancoDados{
         try{
             if(usuario.getId() == 0){
                 PreparedStatement sql = 
-                        this.getConexao().prepareStatement("insert into Usuario"
-                                + "(status, nome, cpf, endereco, sexo, email, usuario, senha) values (?,?,?,?,?,?,?,?)",
+                        this.getConexao().prepareStatement("insert into Usuarios"
+                                + "(status, nome, cpf, endereco, sexo, usuario, senha) values (?,?,?,?,?,?,?)",
                                 Statement.RETURN_GENERATED_KEYS);
                 
                 sql.setString(1, usuario.getStatus());
@@ -28,14 +30,14 @@ public class UsuarioRepositorio extends BancoDados{
                 sql.setString(3, usuario.getCPF().replace("-","").replace(".",""));
                 sql.setString(4, usuario.getEndereco());
                 sql.setString(5, usuario.getSexo());
-                sql.setString(6, usuario.getEmail());
-                sql.setString(7, usuario.getUsuario());
-                sql.setString(8, usuario.getSenha());
+                sql.setString(6, usuario.getUsuario());
+                sql.setString(7, usuario.getSenha());
                 
                 if(sql.executeUpdate() > 0){
                     ResultSet key = sql.getGeneratedKeys();
                     key.next();
                     usuario.setId(key.getInt(1));
+                    AtualizarTelefones(usuario);
                     
                     return true;
                 }
@@ -43,19 +45,20 @@ public class UsuarioRepositorio extends BancoDados{
                     return false;
             } else {
                     PreparedStatement sql = this.getConexao().prepareStatement(
-                            "update Usuario set status = ?, nome = ?, cpf = ?, endereco = ?, sexo = ?, email = ?, usuario = ?, senha = ?");
+                            "update Usuarios set status = ?, nome = ?, cpf = ?, endereco = ?, sexo = ?, usuario = ?, senha = ?");
                     
-                    sql.setString(1, usuario.getStatus());
-                    sql.setString(2, usuario.getNome());
-                    sql.setString(3, usuario.getCPF().replace("-","").replace(".",""));
-                    sql.setString(4, usuario.getEndereco());
-                    sql.setString(5, usuario.getSexo());
-                    sql.setString(6, usuario.getEmail());
-                    sql.setString(7, usuario.getUsuario());
-                    sql.setString(8, usuario.getSenha());
-
-                    if(sql.executeUpdate() > 0)
+                        sql.setString(1, usuario.getStatus());
+                        sql.setString(2, usuario.getNome());
+                        sql.setString(3, usuario.getCPF().replace("-","").replace(".",""));
+                        sql.setString(4, usuario.getEndereco());
+                        sql.setString(5, usuario.getSexo());
+                        sql.setString(6, usuario.getUsuario());
+                        sql.setString(7, usuario.getSenha());
+                        
+                    if(sql.executeUpdate() > 0){
+                        AtualizarTelefones(usuario);
                         return true;
+                    }
                     else 
                         return false;
                 }
@@ -70,7 +73,7 @@ public class UsuarioRepositorio extends BancoDados{
     public void AtualizarTelefones(Usuario usuario){
         try{
             PreparedStatement sql = this.getConexao().
-                    prepareStatement("delete from UsuariosTelefones where cliente_id = ?");
+                    prepareStatement("delete from UsuariosTelefones where usuario_id = ?");
             
             sql.setInt(1, usuario.getId());
             
@@ -83,9 +86,9 @@ public class UsuarioRepositorio extends BancoDados{
                 values += "("+usuario.getId()+",'"+telefone+"')";
             }
             
-            Statement sql2 = (Statement) this.getConexao().createStatement();
+           Statement sql2 = (Statement) this.getConexao().createStatement();
             
-            sql2.executeUpdate("insert into UsuariosTelefones(cliente_id, telefone) values "+ values);
+           sql2.executeUpdate("insert into UsuariosTelefones(usuario_id, telefone) values "+ values);
      
         }
         catch(SQLException ex){
@@ -95,7 +98,7 @@ public class UsuarioRepositorio extends BancoDados{
         
     public Usuario Abrir(int id){
         try{
-            PreparedStatement sql = this.getConexao().prepareStatement("select * from Usuario where id = ?");
+            PreparedStatement sql = this.getConexao().prepareStatement("select * from Usuarios where id = ?");
             
             sql.setInt(1, id);
             
@@ -110,13 +113,12 @@ public class UsuarioRepositorio extends BancoDados{
                 usuario.setCPF(resultado.getString("CPF"));
                 usuario.setEndereco(resultado.getString("endereco"));
                 usuario.setSexo(resultado.getString("sexo"));
-                usuario.setEmail(resultado.getString("email"));
                 usuario.setUsuario(resultado.getString("usuario"));
                 usuario.setSenha(resultado.getString("senha"));
                 abrirTelefones(usuario);
                 
             }
-            catch(Exception ex){
+            catch(ErroValidacaoException | SQLException ex){
                 usuario = null;
             }
             
@@ -132,7 +134,7 @@ public class UsuarioRepositorio extends BancoDados{
     public void abrirTelefones(Usuario usuario) throws SQLException{
         try{
             PreparedStatement sql = this.getConexao().
-                    prepareStatement("select telefone from UsuariosTelefones where cliente_id = ?");
+                    prepareStatement("select telefone from UsuariosTelefones where usuario_id = ?");
         
             sql.setInt(1, usuario.getId());
             
@@ -151,7 +153,7 @@ public class UsuarioRepositorio extends BancoDados{
     public boolean Apagar(Usuario usuario){
         try{
             PreparedStatement sql = this.getConexao().
-                    prepareStatement("delete from Usuario where id = ?");
+                    prepareStatement("delete from Usuarios where id = ?");
         
             sql.setInt(1, usuario.getId());
             
@@ -166,7 +168,7 @@ public class UsuarioRepositorio extends BancoDados{
         return false;
     }
     
-    public List<Cliente> Buscar(Usuario filtro) throws ErroValidacaoException{
+    public List<Usuario> Buscar(Usuario filtro) throws ErroValidacaoException{
         try{
             String where = "";
         
@@ -178,12 +180,16 @@ public class UsuarioRepositorio extends BancoDados{
                         !"000.000.000-00".equals(filtro.getCPF())){
                     if(where.length() > 0)
                         where += " and ";
-                    where += "cpf = '"+filtro.getCPF().replace("-","").replace(".","") + "'";
-       
+                    where += "cpf = '"+filtro.getCPF().replace("-","").replace(".","") + "'";       
+                }
+                if(filtro.getSexo() != null){ 
+                    if(where.length() > 0)
+                        where += " and ";
+                    where += "sexo = '"+filtro.getSexo().toString()+"'";
                 }
             }
             
-            String consulta = "select * from Cliente";
+            String consulta = "select * from Usuarios";
             
             if(where.length() > 0)
                 consulta += " where " + where;
@@ -192,7 +198,7 @@ public class UsuarioRepositorio extends BancoDados{
             
             ResultSet resultado = sql.executeQuery();
             
-            List<Cliente> usuarios = new ArrayList();
+            List<Usuario> usuarios = new ArrayList();
             
             while(resultado.next()){
                 Usuario usuario = new Usuario();
@@ -204,16 +210,16 @@ public class UsuarioRepositorio extends BancoDados{
                     usuario.setCPF(resultado.getString("CPF"));
                     usuario.setEndereco(resultado.getString("endereco"));
                     usuario.setSexo(resultado.getString("sexo"));
-                    usuario.setEmail(resultado.getString("email"));
                     usuario.setUsuario(resultado.getString("usuario"));
                     usuario.setSenha(resultado.getString("senha"));
                     abrirTelefones(usuario);   
                 }
-                catch(SQLException ex){
-                    System.out.println(ex.getMessage());
+                catch(Exception ex){
+                    usuario = null;
                 }
+                usuarios.add(usuario);
             }
-        
+            return usuarios;
         }
         catch(SQLException ex){
             System.out.println(ex.getMessage());

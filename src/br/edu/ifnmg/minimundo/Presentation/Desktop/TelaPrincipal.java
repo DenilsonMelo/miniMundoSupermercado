@@ -5,6 +5,9 @@
  */
 package br.edu.ifnmg.minimundo.Presentation.Desktop;
 
+import br.edu.ifnmg.minimundo.DomainModel.Cliente;
+import br.edu.ifnmg.minimundo.Persistence.ClienteRepositorio;
+
 /**
  *
  * @author denil
@@ -32,6 +35,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mmuFornecedores = new javax.swing.JMenuItem();
         mmuProdutos = new javax.swing.JMenuItem();
         mmuUsuarios = new javax.swing.JMenuItem();
+        mmuClientes = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         mmuCompra = new javax.swing.JMenuItem();
         mmuVenda = new javax.swing.JMenuItem();
@@ -71,6 +75,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(mmuUsuarios);
 
+        mmuClientes.setText("Clientes");
+        mmuClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mmuClientesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mmuClientes);
+
         jMenuBar1.add(jMenu1);
 
         jMenu3.setText("Serviços");
@@ -104,7 +116,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mmuFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmuFornecedoresActionPerformed
-        TelaEditarFornecedores tela = new TelaEditarFornecedores();
+        TelaBuscarFornecedores tela = new TelaBuscarFornecedores();
         this.add(tela);
         tela.show();
     }//GEN-LAST:event_mmuFornecedoresActionPerformed
@@ -120,10 +132,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mmuProdutosActionPerformed
 
     private void mmuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmuUsuariosActionPerformed
-        TelaEditarUsuarios tela = new TelaEditarUsuarios();
+        TelaBuscarUsuarios tela = new TelaBuscarUsuarios();
         this.add(tela);
         tela.show();
     }//GEN-LAST:event_mmuUsuariosActionPerformed
+
+    private void mmuClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmuClientesActionPerformed
+        TelaBuscarClientes tela = new TelaBuscarClientes();
+        this.add(tela);
+        tela.show();
+    }//GEN-LAST:event_mmuClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,6 +183,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem mmuClientes;
     private javax.swing.JMenuItem mmuCompra;
     private javax.swing.JMenuItem mmuFornecedores;
     private javax.swing.JMenuItem mmuProdutos;
