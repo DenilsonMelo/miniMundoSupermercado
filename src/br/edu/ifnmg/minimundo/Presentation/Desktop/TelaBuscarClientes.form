@@ -172,7 +172,7 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="75" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
+                  <Title value="Sexo"/>
                   <Editor/>
                   <Renderer/>
                 </Column>

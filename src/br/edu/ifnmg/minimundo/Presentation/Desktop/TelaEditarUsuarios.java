@@ -134,6 +134,11 @@ public class TelaEditarUsuarios extends javax.swing.JInternalFrame {
         jLabel7.setText("Status");
 
         cbxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
+        cbxStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxStatusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -355,6 +360,10 @@ public class TelaEditarUsuarios extends javax.swing.JInternalFrame {
         txtTelefone.setText("");
         atualizarTelefones();
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void cbxStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxStatusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

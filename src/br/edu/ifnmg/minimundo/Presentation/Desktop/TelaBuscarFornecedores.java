@@ -163,25 +163,29 @@ public class TelaBuscarFornecedores extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        filtro = new Fornecedor();
-        try{
-            if(txtRazaoSocial.getText().length() > 0)
-            filtro.setRazaoSocial(txtRazaoSocial.getText());
+        if(txtRazaoSocial.getText().isEmpty() && txtCNPJ.getText().isEmpty())
+            JOptionPane.showMessageDialog(null, "Todos os campos estão em branco!");
+        else{
+            filtro = new Fornecedor();
+            try{
+                if(txtRazaoSocial.getText().length() > 0)
+                    filtro.setRazaoSocial(txtRazaoSocial.getText());
 
-            if(!txtCNPJ.getText().isEmpty() && txtCNPJ.getText().length() >= 11)
-            filtro.setRazaoSocial(txtCNPJ.getText());
+                if(!txtCNPJ.getText().isEmpty() && txtCNPJ.getText().length() >= 13)
+                    filtro.setRazaoSocial(txtCNPJ.getText());
 
-        } catch (ErroValidacaoException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
+            } catch (ErroValidacaoException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
 
-        try {
-            List<Fornecedor> fornecedores = fornecedor_repositorio.Buscar(filtro);
+            try {
+                List<Fornecedor> fornecedores = fornecedor_repositorio.Buscar(filtro);
 
-            preencherTabela(fornecedores);
+                preencherTabela(fornecedores);
 
-        } catch (ErroValidacaoException ex) {
-            Logger.getLogger(TelaBuscarFornecedores.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ErroValidacaoException ex) {
+                Logger.getLogger(TelaBuscarFornecedores.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -189,9 +193,8 @@ public class TelaBuscarFornecedores extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = new DefaultTableModel();
         
         modelo.addColumn("ID");
-        modelo.addColumn("Nome");
-        modelo.addColumn("CPF");
-        modelo.addColumn("Sexo");
+        modelo.addColumn("Razão Social");
+        modelo.addColumn("CNPJ");
 
         for(Fornecedor fornecedor : lista){            
       
@@ -199,7 +202,7 @@ public class TelaBuscarFornecedores extends javax.swing.JInternalFrame {
             
             linha.add(fornecedor.getId());
             linha.add(fornecedor.getRazaoSocial());
-            linha.add(fornecedor.getCNPJ());          
+            linha.add(fornecedor.getCNPJ1());          
             
             modelo.addRow(linha);
         }

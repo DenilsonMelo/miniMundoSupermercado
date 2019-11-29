@@ -115,6 +115,7 @@ public class TelaBuscarClientes extends javax.swing.JInternalFrame {
             tblBuscarClientes.getColumnModel().getColumn(2).setMinWidth(160);
             tblBuscarClientes.getColumnModel().getColumn(2).setMaxWidth(160);
             tblBuscarClientes.getColumnModel().getColumn(3).setMaxWidth(75);
+            tblBuscarClientes.getColumnModel().getColumn(3).setHeaderValue("Sexo");
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

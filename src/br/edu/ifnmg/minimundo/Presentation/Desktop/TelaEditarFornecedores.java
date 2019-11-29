@@ -41,13 +41,15 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
         this.fornecedor = fornecedor;
         txtRazaoSocial.setText(fornecedor.getRazaoSocial());
         txtCNPJ.setText(fornecedor.getCNPJ());
+        cbxStatus.setSelectedItem(fornecedor.getStatus());
         txtEndereco.setText(fornecedor.getEndereco());
         txtEmail.setText(fornecedor.getEmail());
     }
     
-    public Fornecedor getFornecedor(){
+    public Fornecedor getFornecedor() throws ErroValidacaoException{
         this.fornecedor.setRazaoSocial(txtRazaoSocial.getText());
         this.fornecedor.setCNPJ(txtCNPJ.getText());
+        this.fornecedor.setStatus(cbxStatus.getSelectedItem().toString());
         this.fornecedor.setEndereco(txtEndereco.getText());
         this.fornecedor.setEmail(txtEmail.getText());
         return this.fornecedor;
@@ -73,6 +75,8 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
         btnSalvar = new javax.swing.JButton();
         btnApagar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        cbxStatus = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("EDITAR FORNECEDORES");
@@ -85,6 +89,12 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
 
         jLabel4.setText("E-mail");
 
+        txtCNPJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCNPJActionPerformed(evt);
+            }
+        });
+
         btnSalvar.setText("Salvar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +105,10 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
         btnApagar.setText("Apagar");
 
         btnCancelar.setText("Cancelar");
+
+        cbxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo" }));
+
+        jLabel7.setText("Status");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,23 +131,31 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtRazaoSocial)
-                            .addComponent(txtCNPJ)
                             .addComponent(txtEndereco)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(75, Short.MAX_VALUE))
+                            .addComponent(txtEmail)
+                            .addComponent(txtRazaoSocial)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(txtRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(cbxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,7 +169,7 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
                     .addComponent(btnSalvar)
                     .addComponent(btnApagar)
                     .addComponent(btnCancelar))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         pack();
@@ -171,7 +193,7 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
                 else
                     JOptionPane.showMessageDialog(null, "Falha ao salvar os dados!");
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(TelaEditarFornecedores.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -180,18 +202,24 @@ public class TelaEditarFornecedores extends javax.swing.JInternalFrame {
         
         
         }
-    }                              
+                                
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void txtCNPJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCNPJActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCNPJActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApagar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> cbxStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField txtCNPJ;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;

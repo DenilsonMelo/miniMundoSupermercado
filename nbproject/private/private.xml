@@ -4,11 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Persistence/UsuarioRepositorio.java</file>
-            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/DomainModel/Usuario.java</file>
+            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/DomainModel/Fornecedor.java</file>
+            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaBuscarFornecedores.java</file>
+            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaEditarFornecedores.java</file>
+            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaBuscarClientes.java</file>
             <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaEditarUsuarios.java</file>
-            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaPrincipal.java</file>
-            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaBuscarUsuarios.java</file>
-            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Presentation/Desktop/TelaEditarClientes.java</file>
+            <file>file:/C:/Users/denil/Dropbox/Sistemas%20de%20Informação/NetBeansProjects/br.edu.ifnmg.miniMundo/src/br/edu/ifnmg/minimundo/Persistence/FornecedorRepositorio.java</file>
         </group>
     </open-files>
 </project-private>

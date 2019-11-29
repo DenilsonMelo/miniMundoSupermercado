@@ -21,12 +21,12 @@ public class FornecedorRepositorio extends BancoDados{
             if(fornecedor.getId() == 0){
                 PreparedStatement sql = this.getConexao().
                         prepareStatement("insert into Fornecedores"
-                                + "(status, razaoSocial, cnpj, endereco, email) values (?,?,?,?,?)",
+                                + "(razaoSocial, cnpj, status, endereco, email) values (?,?,?,?,?)",
                                 Statement.RETURN_GENERATED_KEYS);
-
-                sql.setString(1, fornecedor.getStatus());
-                sql.setString(2, fornecedor.getRazaoSocial());
-                sql.setString(3, fornecedor.getCNPJ().replace(".","").replace("-","").replace("/",""));
+             
+                sql.setString(1, fornecedor.getRazaoSocial());
+                sql.setString(2, fornecedor.getCNPJ().replace(".","").replace("/","").replace("-",""));
+                sql.setString(3, fornecedor.getStatus());
                 sql.setString(4, fornecedor.getEndereco());
                 sql.setString(5, fornecedor.getEmail());
 
@@ -42,11 +42,11 @@ public class FornecedorRepositorio extends BancoDados{
             }
             else{
                 PreparedStatement sql = this.getConexao().
-                        prepareStatement("update fornecedores set status = ?, razaoSocial = ?, cnpj = ?, endereco = ?, email = ?");
-            
-                sql.setString(1, fornecedor.getStatus());
-                sql.setString(2, fornecedor.getRazaoSocial());
-                sql.setString(3, fornecedor.getCNPJ().replace(".","").replace("-","").replace("/",""));
+                        prepareStatement("update fornecedores set razaoSocial = ?, cnpj = ?, status = ?, endereco = ?, email = ?");
+                            
+                sql.setString(1, fornecedor.getRazaoSocial());
+                sql.setString(2, fornecedor.getCNPJ().replace(".","").replace("/","").replace("-",""));
+                sql.setString(3, fornecedor.getStatus());
                 sql.setString(4, fornecedor.getEndereco());
                 sql.setString(5, fornecedor.getEmail());
                 
@@ -74,11 +74,12 @@ public class FornecedorRepositorio extends BancoDados{
             Fornecedor fornecedor = new Fornecedor();
             
             try{
-                sql.setString(1, fornecedor.getStatus());
-                sql.setString(2, fornecedor.getRazaoSocial());
-                sql.setString(3, fornecedor.getCNPJ().replace(".","").replace("-","").replace("/",""));
-                sql.setString(4, fornecedor.getEndereco());
-                sql.setString(5, fornecedor.getEmail());
+               fornecedor.setId(resultado.getInt("id"));
+               fornecedor.setRazaoSocial(resultado.getString("razaoSocial"));
+               fornecedor.setCNPJ(resultado.getString("cnpj"));
+               fornecedor.setStatus(resultado.getString("status"));
+               fornecedor.setEndereco(resultado.getString("endereco"));
+               fornecedor.setEmail(resultado.getString("email"));
             }
             catch(Exception ex){
                 fornecedor = null;
@@ -119,11 +120,11 @@ public class FornecedorRepositorio extends BancoDados{
                 if(filtro.getRazaoSocial() != null && !filtro.getRazaoSocial().isEmpty())
                     where += "razaosocial like '%"+filtro.getRazaoSocial()+ "%'";
             
-                if(filtro.getCNPJ() != null && !filtro.getCNPJ().isEmpty() && 
-                        !"00.000.000/0000-00".equals(filtro.getCNPJ())){
+                if(filtro.getCNPJ1() != null && !filtro.getCNPJ1().isEmpty() && 
+                        !"00.000.000/0000-00".equals(filtro.getCNPJ1())){
                     if(where.length() > 0)
                         where += " and ";
-                    where += "cnpj = '"+filtro.getCNPJ().replace("/","").replace(".","") + "'";
+                    where += "cnpj = '"+filtro.getCNPJ().replace(".","").replace("/","").replace("-","") + "'";
        
                 }
             }
